@@ -62,6 +62,26 @@ namespace ft
 
 	template <class T>
 	struct is_integral : is_integral_type<T> {};
-};
 
+
+	/*IsConst*/
+
+	// template <bool IsConst>
+	// struct IterName : CommonIter {};
+	// typedef IterName<false>	SimpleIterator;
+	// typedef IterName<true>	ConstIterator;
+	
+
+	/*Conditional*/
+
+	template <bool, typename T, typename c_T>
+	struct	conditional {T type;};
+
+	template <typename T, typename c_T>
+	struct	conditional <true, T, c_T> {c_T type;};
+
+	template <bool B, typename T, typename c_T>
+	struct conditional_t : conditional<B, T, c_T> {};
+
+};
 #endif

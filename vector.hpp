@@ -2,6 +2,7 @@
 # define FT_VECTOR_HPP
 
 #include <memory>
+#include "iterators.hpp"
 
 namespace ft
 {
@@ -9,13 +10,13 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T	value_type;
-			typedef Allocator	allocator_type;
-			typedef typename allocator_type::reference	reference;
+			typedef T											value_type;
+			typedef Allocator									allocator_type;
+			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer	pointer;
-			typedef typename allocator_type::const_pointer	const_pointer;
-			// typedef 	iterator;
+			typedef typename allocator_type::pointer			pointer;
+			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef typename ft::iterator_traits<T>::volue_type	iterator;
 			// typedef 	const_iterator;
 			// typedef 	reverse_iterator;
 			// typedef 	const_reverse_iterator;
@@ -25,8 +26,14 @@ namespace ft
 
 
 			//	Capacity:
-			size_type	size() const {return _size;}
-			size_type	capacity() const {return _capacity;}
+			size_type	size() const {
+				return _size;
+			}
+
+			size_type	capacity() const {
+				return _capacity;
+			}
+
 			resize(size_type n, value_type val = value_type()) {
 				if (n < _size) {
 					while (--_size > n)
@@ -58,7 +65,7 @@ namespace ft
 
 			}
 
-			size_type	max_size() const {return std::numeric_limits<value_type>/sizeof(value_type);}
+			// size_type	max_size() const {return std::numeric_limits<value_type> /sizeof(value_type);}
 
 			vector() {}
 			~vector() {}
