@@ -12,18 +12,18 @@ namespace ft
 	{
 
 		public:
-			typedef T												value_type;
 			typedef Alloc											allocator_type;
-			typedef typename allocator_type::pointer				pointer;
-			typedef typename allocator_type::const_pointer			const_pointer;
-			typedef typename allocator_type::reference				reference;
-			typedef typename allocator_type::const_reference		const_reference;
-			typedef typename allocator_type::size_type				size_type;
-			typedef typename allocator_type::different_type			difference_type;
+			typedef typename Alloc::value_type						value_type;
+			typedef typename Alloc::pointer							pointer;
+			typedef typename Alloc::const_pointer					const_pointer;
+			typedef typename Alloc::reference						reference;
+			typedef typename Alloc::const_reference					const_reference;
+			typedef typename Alloc::size_type						size_type;
+			typedef typename Alloc::different_type					difference_type;
 			typedef ft::random_access_iterator<value_type>			iterator;
 			typedef ft::random_access_iterator<const value_type>	const_iterator;
-			// typedef 	reverse_iterator;
-			// typedef 	const_reverse_iterator;
+			// typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			// typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		private:
 			T*			_arr;
 			size_t		_size;
@@ -32,12 +32,13 @@ namespace ft
 			iterator	_last;
 			iterator	_end;
 		public:
-			explicit	vector(const allocator_type& alloc = allocator_type()) {};	//
+			vector() {};
+			explicit	vector(const Alloc& alloc = Alloc()) {};
 
-			explicit	vector(size_t n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) { };
+			explicit	vector(size_t n, const value_type& val = value_type(), const Alloc& alloc = Alloc()) { };
 
 			template<class InIter>
-			vector	(InIter first, InIter last, const allocator_type& alloc = allocator_type()) {}
+			vector	(InIter first, InIter last, const Alloc& alloc = Alloc()) {}
 
 			vector(const vector& other) {}	
 
@@ -45,39 +46,48 @@ namespace ft
 
 			// operator=() {}
 
-			value_type&	operator[](size_t i) {return _arr[i];}
+			reference		operator[](size_t i) {return _arr[i];}
+			const_reference	operator[](size_t i) const {return _arr[i];}
 
-			// assign() {}
-
-			value_type&	at(size_t i) {
+			reference		at(size_t i) {
 				if (i > _size)
 					throw std::out_of_range("....");
 				return _arr[i];
 			}
 
-			// back() {}
+			const_reference	at(size_t i) const {
+				if (i > _size)
+					throw std::out_of_range("....");
+				return _arr[i];
+			}
 
-			// iterator&	begin() const {return }
+			// iterator			begin() {}
+			// const_iterator	begin() const {}
 
-			size_t	capacity() const {return _capacity;}
+			iterator		end() {return iterator(this + size());}
+			const_iterator	end() const {return iterator(this + size());}
 
-			// clear() {}
+			// reserve_iterator			rbegin() {}
+			// const_reserve_iterator	rbegin() const {}
+			
+			// reserve_iterator			rend() {}
+			// const_reserve_iterator	rend() const {}
+
+			size_type	capacity() const {return _capacity;}
+
+			size_type	size() const {return _size;}
+
+			// size_type	max_size() const {}
 
 			// empty() {}
 
-			iterator	end() const {return iterator(this + size());}
+			// allocator_type	get_allocator {}
 
-			// erase() {}
+			// referense		front() {}
+			// const_referense	front() const {}
 
-			// frint() {}
-
-			// get_allocator {}
-
-			// insert() {}
-
-			// size_type	max_size() const {return std::numeric_limits<value_type> /sizeof(value_type);}
-
-			void	pop_back() {_arr[--_size].~T();}
+			// reference		back() {}
+			// const_reference	back() const {}
 
 			void	push_back(const T& val) {
 				if (_size == _capacity)
@@ -86,14 +96,25 @@ namespace ft
 				++_size;
 			}
 
-			// rbegin() {}
+			void	pop_back() {_arr[--_size].~T();}
 
-			// rend() {}
+			// template<class InIter>	
+			//void	assign(InIter first, InIter last) {}
+
+			// void	assign(size_type n, const value_type& x) {}
+
+			// iterator	insert(iterator it, const value_type& x) {}
+			// void		insert(iteratir it, size_type n, const value_type& x) {}
+			// template<class InIter>
+			// void		insert(iterator it, InIter first, InIter last) {}
+
+			// iterator	erase(iterator it) {}
+			// iterator	erase(iterator first, iterator last) {}
 
 			void	reserve(size_type n) {
 				// if (n > max_size())
 				// 	throw std::length_error("Length error: oversize!");
-				const allocator_type& alloc = std::allocator<T>();
+				const Alloc& alloc = std::allocator<T>();
 				if (n > _capacity) {
 					T* new_arr = alloc::allocate(n * sizeof(T)));
 					//  char[n * sizeof(T)]);
@@ -143,12 +164,9 @@ namespace ft
 				}
 			}
 
-			size_t	size() const {return _size;}
+			//void	clear() {}
 
-			// swap() {}
-
-
-
+			//void	swap(vector x) {}
 	};
 
 	// template<class T>
